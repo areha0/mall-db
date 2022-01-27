@@ -38,39 +38,39 @@ function getData() {
       listArr.push(list);
     })
 
-    // console.log(listArr.length);
-    let iidArr1 = [];
-    let iidArr2 = [];
-    let iidArr3 = [];
-    let iidArr4 = [];
-    let iidArr5 = [];
-    for (let i = 0; i < listArr.length / 10; i++) {
-      listArr[i].forEach(item1 => {
-        iidArr1.push(`${detailUrl}?iid=${item1.iid}`)
-      })
-    };
+    console.log(listArr.length);
+    // let iidArr1 = [];
+    // let iidArr2 = [];
+    // let iidArr3 = [];
+    // let iidArr4 = [];
+    // let iidArr5 = [];
+    // for (let i = 0; i < listArr.length / 10; i++) {
+    //   listArr[i].forEach(item1 => {
+    //     iidArr1.push(`${detailUrl}?iid=${item1.iid}`)
+    //   })
+    // };
 
-    console.log(iidArr1.length);
+    // console.log(iidArr1.length);
     // console.log(iidArr2);
     // console.log(iidArr3);
     // console.log(iidArr4);
     // console.log(iidArr5);
 
     // ////////
-    iidArr1.forEach(item2 => {
-      superagent.get(item2).end((err2, res2) => {
-        //
-        ep.emit("detail1", res2.text || JSON.stringify({}));
-      })
-    });
+    // iidArr1.forEach(item2 => {
+    //   superagent.get(item2).end((err2, res2) => {
+    //     //
+    //     ep.emit("detail1", res2.text || JSON.stringify({}));
+    //   })
+    // });
 
-    ep.after("detail1", iidArr1.length, (data2) => {
-      console.log(123);
-      let result = JSON.parse(data2)
-      Detail_data.insertMany(result, () => {
-        console.log("添加成功1");
-      })
-    });
+    // ep.after("detail1", iidArr1.length, (data2) => {
+    //   console.log(123);
+    //   let result = JSON.parse(data2)
+    //   Detail_data.insertMany(result, () => {
+    //     console.log("添加成功1");
+    //   })
+    // });
 
     // // ////////
     // for (let i = listArr.length / 5; i < 2 * listArr.length / 5; i++) {
