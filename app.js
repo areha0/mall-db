@@ -7,7 +7,12 @@ var logger = require('morgan');
 // 引入路由对应的页面
 var loginRouter = require('./routes/login');
 let shopcarpRouter = require("./routes/shopcart");
-let registerRouter = require("./routes/register")
+let registerRouter = require("./routes/register");
+let homeRouter = require("./routes/home");
+let detailRouter = require("./routes/detail");
+let recommendRouter = require("./routes/recommend");
+let categoryRouter = require("./routes/category");
+let subcategoryRouter = require("./routes/subcategory")
 // 数据库连接
 
 
@@ -43,6 +48,11 @@ app.use('/*', function (req, res, next) {
 app.use('/login', loginRouter);
 app.use("/shopcart", shopcarpRouter);
 app.use("/register", registerRouter);
+app.use("/home", homeRouter);
+app.use("/detail", detailRouter);
+app.use("/recommend", recommendRouter);
+app.use("/category", categoryRouter);
+app.use("/subcategory", subcategoryRouter)
 
 // 404报错
 app.use(function (req, res, next) {

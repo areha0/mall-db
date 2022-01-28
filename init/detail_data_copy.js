@@ -56,11 +56,11 @@ function getData() {
     for (let i = 0; i < iidArr.length; i++) {
       setTimeout(() => {
         superagent.get(iidArr[i]).end((err, res) => {
-          let data = (res && res.text) ? res.text : JSON.stringify({});
+          let text = (res && res.text) ? res.text : JSON.stringify({});
           // console.log(data);
-          // ep.emit("result", data);
-          let result = JSON.parse(data);
-          Detail_data.insertMany(result, () => {
+          let data = JSON.parse(text);
+          // console.log(data);
+          Detail_data.insertMany(data, () => {
             console.log("添加成功");
           })
         })
