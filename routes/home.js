@@ -3,7 +3,7 @@ const req = require('express/lib/request');
 var router = express.Router();
 const Home_goods = require("../db/home_goods");
 const Home_multiply = require("../db/home_multiply");
-const Detail_data = require("../db/detail_data");
+const Home_goods_all = require("../db/home_goods_all")
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
@@ -24,14 +24,18 @@ router.get("/data", function (req, res, next) {
   })
 })
 
-router.post("/search", function (req, res, next) {
-  let key = req.body.key;
-  // console.log(key);
+router.get("/search", function (req, res, next) {
+  let query = req.query;
+  let key = query.key;
+  let page = query.page;
   let reg = new RegExp(key, "i")
-  // { "result.itemInfo.desc": "2018秋季新款韩版百搭格子长袖衬衫+前短后长针织气质开衫外套+高腰直筒九分牛仔裤三件套装" }
-  Detail_data.find({ "result.itemInfo.desc": { $regex: reg } }, (err, data) => {
-    // console.log(data);
-    res.send(data)
+  // // { "result.itemInfo.desc": "2018秋季新款韩版百搭格子长袖衬衫+前短后长针织气质开衫外套+高腰直筒九分牛仔裤三件套装" }
+  let pageLength = 30;
+  Home_goods_all.find({ "data.title": { $regex: reg } }).skip(pageLength * (page - 1)).limit(pageLength).exec((err, data) => {
+    let list = data.map(item => {
+      return item.data
+    })
+    res.send(list)
   })
 })
 
