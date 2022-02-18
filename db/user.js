@@ -6,7 +6,8 @@ const UserSchema = mongoose.Schema({
   password: {
     type: String
   },
-  phone: String
+  phone: String,
+  searchHistory: Array
 }, { versionKey: false });
 
 module.exports = mongoose.model("User", UserSchema, "user");
