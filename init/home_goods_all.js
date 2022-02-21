@@ -6,7 +6,6 @@ let baseUrl = "http://152.136.185.210:7878/api/hy66/home/data";
 
 // 抓取数据具体函数
 function getData() {
-  // return new Promise((resolve, reject) => {
   let typeArr = ["sell", "new", "pop"];
   let urlArr = [];
   let pageLength = 20;
@@ -26,11 +25,20 @@ function getData() {
       });
     })
   }
-  // })
 }
 
 // module.exports = getData
-getData()
+// getData()
+
+
+Home_goods_all.find({}, (err, data) => {
+  data.forEach(item => {
+    let num = 1 * item.data.price;
+    Home_goods_all.updateMany({ "data.price": item.data.price }, { "data.price": num }, () => {
+      console.log("修改成功");
+    })
+  })
+})
 
 
 
