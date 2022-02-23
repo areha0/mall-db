@@ -20,7 +20,7 @@ router.post("/", (req, res) => {
     // 状态2: 此时是商品的数量发生了改变
     case 2:
       // console.log(123);
-      Shopcart.updateOne({ "id": data.id }, { $set: { "count": data.count } }, (err, result) => {
+      Shopcart.updateOne({ "username": data.username, "id": data.id }, { $set: { "count": data.count } }, (err, result) => {
         if (err) {
           console.log(err);
           return
@@ -31,7 +31,7 @@ router.post("/", (req, res) => {
       break;
     // 状态3是商品是否被选中
     case 3:
-      Shopcart.updateOne({ "id": data.id }, { $set: { "checked": data.checked } }, (err, result) => {
+      Shopcart.updateOne({ "username": data.usernaem, "id": data.id }, { $set: { "checked": data.checked } }, (err, result) => {
         if (err) {
           console.log(err);
           return
@@ -61,6 +61,18 @@ router.post("/", (req, res) => {
           console.log(result);
         })
       }
+      break;
+    // 删除某产品
+    case 5:
+      Shopcart.remove({ "username": data.username, "id": data.id }, (err, result) => {
+        if (err) {
+          console.log(err);
+          return
+        }
+        console.log("删除成功");
+        console.log(result);
+      })
+
   }
 })
 
