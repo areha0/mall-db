@@ -6,7 +6,7 @@ const Shopcart = require("../db/shopcart")
 router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
 
-
+// 登录检查用户名及密码,以及传递购物车信息
 router.post("/", function (req, res, next) {
   let body = req.body;
   let params = body.params;
@@ -51,6 +51,7 @@ router.post("/", function (req, res, next) {
   })
 })
 
+// 修改用户中的搜索历史
 router.post("/keys", function (req, res, next) {
   let body = req.body;
   console.log(body);
@@ -58,4 +59,12 @@ router.post("/keys", function (req, res, next) {
   res.send("修改搜索历史成功")
 })
 
+// 修改用户中的地址列表
+router.post("/address", function (req, res, next) {
+  let body = req.body;
+  let { username, addressArr } = body;
+  // console.log(addressArr);
+  User.updateOne({ "name": username }, { "addressList": addressArr })
+  res.send("发的地址我看到了")
+})
 module.exports = router;

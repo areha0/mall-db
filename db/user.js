@@ -7,7 +7,8 @@ const UserSchema = mongoose.Schema({
     type: String
   },
   phone: String,
-  searchHistory: Array
+  searchHistory: Array,
+  addressList: Array,
 }, { versionKey: false });
 
 module.exports = mongoose.model("User", UserSchema, "user");
