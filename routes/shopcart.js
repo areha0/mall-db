@@ -6,10 +6,9 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
 
 router.post("/", (req, res) => {
-  res.send("着实不错");
   let data = req.body.params;
   console.log(data);
-  // console.log(data.state);
+  console.log(data.state);
   switch (data.state) {
     // 状态1: 这里是添加商品至购物车
     case 1:
@@ -31,7 +30,7 @@ router.post("/", (req, res) => {
       break;
     // 状态3是商品是否被选中
     case 3:
-      Shopcart.updateOne({ "username": data.usernaem, "id": data.id }, { $set: { "checked": data.checked } }, (err, result) => {
+      Shopcart.updateOne({ "username": data.username, "id": data.id }, { $set: { "checked": data.checked } }, (err, result) => {
         if (err) {
           console.log(err);
           return
@@ -64,7 +63,7 @@ router.post("/", (req, res) => {
       break;
     // 删除某产品
     case 5:
-      Shopcart.remove({ "username": data.username, "id": data.id }, (err, result) => {
+      Shopcart.deleteOne({ "username": data.username, "id": data.id }, (err, result) => {
         if (err) {
           console.log(err);
           return
@@ -72,8 +71,19 @@ router.post("/", (req, res) => {
         console.log("删除成功");
         console.log(result);
       })
+      break;
 
+    // 删除订单中的商品
+    case 6:
+      console.log(data.username);
+      Shopcart.deleteMany({ "username": data.username, "checked": true }, (err, data) => {
+        if (err) {
+          console.log(err);
+          return
+        }
+      })
   }
+  res.send("好了")
 })
 
 module.exports = router;
