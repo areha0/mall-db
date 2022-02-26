@@ -13,7 +13,8 @@ let detailRouter = require("./routes/detail");
 let recommendRouter = require("./routes/recommend");
 let categoryRouter = require("./routes/category");
 let subcategoryRouter = require("./routes/subcategory")
-let orderRouter = require("./routes/order")
+let orderRouter = require("./routes/order");
+let paymentRouter = require("./routes/payment")
 // 数据库连接
 
 
@@ -54,7 +55,8 @@ app.use("/detail", detailRouter);
 app.use("/recommend", recommendRouter);
 app.use("/category", categoryRouter);
 app.use("/subcategory", subcategoryRouter);
-app.use("/order", orderRouter)
+app.use("/order", orderRouter);
+app.use("/payment", paymentRouter)
 
 // 404报错
 app.use(function (req, res, next) {
