@@ -27,11 +27,11 @@ router.post("/", (req, res, next) => {
       res.send({ ordernum });
     })
   } else if (state === 2) {
-    // console.log(body.params);
-    let { ordernum, username, paytype, totleprice, goods } = body.params;
+    console.log(body.params);
+    let { ordernum, username, paytype, totleprice, goods, address, list } = body.params;
     // 修改数据库内容, 将状态1改为状态2, 添加支付方式, 支付金额, 商品名称
-    User.updateOne({ "name": username, "orderList": { "$elemMatch": { "ordernum": ordernum, "state": 1 } } },
-      { $set: { "orderList.$.state": 2, "orderList.$.paytype": paytype, "orderList.$.totleprice": totleprice, "orderList.$.goods": goods } }, (err, data) => { })
+    // User.updateOne({ "name": username, "orderList": { "$elemMatch": { "ordernum": ordernum, "state": 1 } } },
+    //   { $set: { "orderList.$.state": 2, "orderList.$.paytype": paytype, "orderList.$.totleprice": totleprice, "orderList.$.goods": goods, "orderList.$.address": address, "orderList.$.list": list } }, (err, data) => { })
 
 
     // 生成支付跳转链接
@@ -54,6 +54,8 @@ router.post("/", (req, res, next) => {
 
     // 对接成功后,支付宝方返回的数据
     result.then(resp => {
+      User.updateOne({ "name": username, "orderList": { "$elemMatch": { "ordernum": ordernum, "state": 1 } } },
+        { $set: { "orderList.$.state": 2, "orderList.$.paytype": paytype, "orderList.$.totleprice": totleprice, "orderList.$.goods": goods, "orderList.$.address": address, "orderList.$.list": list, "orderList.$.payurl": resp } }, (err, data) => { })
       res.send({
         data: {
           success: true,
@@ -69,6 +71,15 @@ router.post("/", (req, res, next) => {
     let { username, ordernum } = body.params;
     console.log("lail");
     User.updateOne({ "name": username }, { $pull: { "orderList": { "ordernum": ordernum, "state": 1 } } },
+      (err, data) => {
+        console.log(err, data);
+      })
+    res.send("删除订单成功")
+  } else if (state === 4) {
+    // 这是订单交易结束之后的删除
+    let { username, ordernum } = body.params;
+    console.log("lail");
+    User.updateOne({ "name": username }, { $pull: { "orderList": { "ordernum": ordernum } } },
       (err, data) => {
         console.log(err, data);
       })
