@@ -64,8 +64,26 @@ router.post("/", (req, res, next) => {
     })
 
 
+  } else if (state === 3) {
+    // 删除state=1的数据
+    let { username, ordernum } = body.params;
+    console.log("lail");
+    User.updateOne({ "name": username }, { $pull: { "orderList": { "ordernum": ordernum, "state": 1 } } },
+      (err, data) => {
+        console.log(err, data);
+      })
+    res.send("删除订单成功")
   }
 })
 
+// 获取所有订单
+router.get("/allorders", (req, res, next) => {
+  // console.log(req.query);
+  let { username } = req.query
+  User.find({ "name": username }, (err, data) => {
+    // console.log(data);
+    res.send(data[0].orderList)
+  });
+})
 
 module.exports = router;

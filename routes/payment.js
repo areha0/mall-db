@@ -56,7 +56,7 @@ router.post("/", (req, res, next) => {
             break
         }
       } else if (response.code = "40004") {
-        res.send({ code: 0, msg: "交易不存在" })
+        res.send({ code: 1, msg: "交易不存在" })
       }
     })
   }).catch(err => {

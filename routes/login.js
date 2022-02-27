@@ -55,7 +55,9 @@ router.post("/", function (req, res, next) {
 router.post("/keys", function (req, res, next) {
   let body = req.body;
   console.log(body);
-  User.updateOne({ "name": body.username }, { "searchHistory": body.key })
+  User.updateOne({ "name": body.username }, { "searchHistory": body.key }, (err, data) => {
+    // console.log(err, data);
+  })
   res.send("修改搜索历史成功")
 })
 
@@ -64,7 +66,9 @@ router.post("/address", function (req, res, next) {
   let body = req.body;
   let { username, addressArr } = body;
   // console.log(addressArr);
-  User.updateOne({ "name": username }, { "addressList": addressArr })
+  User.updateOne({ "name": username }, { "addressList": addressArr }, (err, data) => {
+    console.log(err, data);
+  })
   res.send("发的地址我看到了")
 })
 module.exports = router;
