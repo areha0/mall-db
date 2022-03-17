@@ -20,25 +20,24 @@ function getData() {
       let list = JSON.parse(res.text).data.list;
       list.forEach(item => {
         Home_goods_all.insertMany({ "data": item }, () => {
-          console.log("添加成功");
+          // console.log("添加成功");
         })
       });
     })
   }
-}
 
-// module.exports = getData
-// getData()
-
-
-Home_goods_all.find({}, (err, data) => {
-  data.forEach(item => {
-    let num = 1 * item.data.price;
-    Home_goods_all.updateMany({ "data.price": item.data.price }, { "data.price": num }, () => {
-      console.log("修改成功");
+  Home_goods_all.find({}, (err, data) => {
+    data.forEach(item => {
+      let num = 1 * item.data.price;
+      Home_goods_all.updateMany({ "data.price": item.data.price }, { "data.price": num }, () => {
+        console.log("修改成功");
+      })
     })
   })
-})
 
+}
+
+
+module.exports = getData
 
 

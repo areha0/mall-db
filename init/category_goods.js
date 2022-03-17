@@ -47,7 +47,7 @@ function getData() {
           "miniWallkey": miniWallkey,
           "type": type
         }, () => {
-          console.log("添加成功");
+          // console.log("添加成功");
         })
         // data.forEach((item2) => {
         //   Category_goods.insertMany({
@@ -65,5 +65,4 @@ function getData() {
 
 }
 
-// module.exports = getData
-getData()
+module.exports = getData

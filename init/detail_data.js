@@ -54,34 +54,21 @@ function getData() {
 
     // 接下来就需要根据iidArr中的地址获取响应的数据
     for (let i = 0; i < iidArr.length; i++) {
-      setTimeout(() => {
-        superagent.get(iidArr[i]).end((err, res) => {
-          let text = (res && res.text) ? res.text : JSON.stringify({});
-          // console.log(data);
-          let data = JSON.parse(text);
-          // console.log(data);
-          Detail_data.insertMany(data, () => {
-            console.log("添加成功");
-          })
+      superagent.get(iidArr[i]).end((err, res) => {
+        let text = (res && res.text) ? res.text : JSON.stringify({});
+        // console.log(data);
+        let data = JSON.parse(text);
+        // console.log(data);
+        Detail_data.insertMany(data, () => {
+          // console.log("添加成功");
         })
-      }, i * 60);
+      })
     };
-
-
-    // ep.after("result", iidArr.length, (data) => {
-    //   // let res = JSON.parse(data);
-    //   console.log(data);
-    //   console.log(123);
-    //   // 11833  1m7i4za
-    //   Detail_data.insertMany(data, () => {
-    //     console.log("添加成功");
-    //   })
-    // });
 
   })
 }
 
-
-getData()
+module.exports = getData
+// getData()
 
 

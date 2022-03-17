@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
+    "init": "node ./init/index.js",
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {

@@ -25,15 +25,15 @@ function getData() {
       let data = JSON.parse(res.text);
       Home_goods.insertMany(data, () => {
         // resolve()
-        console.log("添加成功");
+        // console.log("添加成功");
       })
     })
   }
   // })
 }
 
-// module.exports = getData
-getData()
+module.exports = getData
+// getData()
 
 
 

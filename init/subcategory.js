@@ -37,7 +37,7 @@ function getData() {
         let data = JSON.parse(res.text);
         // console.log(data);
         Subcategory.insertMany(data, () => {
-          console.log("添加成功");
+          // console.log("添加成功");
         })
       })
     })
@@ -45,5 +45,4 @@ function getData() {
 
 }
 
-// module.exports = getData
-getData()
+module.exports = getData

@@ -16,12 +16,11 @@ function getData() {
     list.forEach(data => {
       // console.log(data, "123");
       Category.insertMany({ "data": data }, () => {
-        console.log("添加成功");
+        // console.log("添加成功");
       })
     })
   })
   // })
 }
 
-// module.exports = getData
-getData()
+module.exports = getData
