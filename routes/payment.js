@@ -11,6 +11,22 @@ const superagent = require('superagent');
 router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
 
+router.use("/*", function (req, res, next) {
+  let body = req.headers.authorization || "";
+  // console.log(body);
+  let token = body.slice(7);
+  // console.log(token);
+  let secret = "shuosuo";
+  try {
+    let user = jwt.verify(token, secret);
+    console.log(user);
+  } catch (error) {
+    res.status(401).send("请登录");
+    return
+  };
+  next()
+})
+
 router.post("/", (req, res, next) => {
   let body = req.body;
   // console.log(body);

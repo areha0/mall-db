@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const User = require("../db/user");
+const jwt = require("jsonwebtoken")
 // 引入支付宝文件
 const alipaySdk = require("../db/alipay");
 const AlipayFormData = require("alipay-sdk/lib/form").default
@@ -9,6 +10,22 @@ var moment = require('moment'); // require
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
+
+router.use("/*", function (req, res, next) {
+  let body = req.headers.authorization || "";
+  // console.log(body);
+  let token = body.slice(7);
+  // console.log(token);
+  let secret = "shuosuo";
+  try {
+    let user = jwt.verify(token, secret);
+    console.log(user);
+  } catch (error) {
+    res.status(401).send("请登录");
+    return
+  };
+  next()
+})
 
 router.post("/", (req, res, next) => {
   let body = req.body;
@@ -88,9 +105,9 @@ router.post("/", (req, res, next) => {
 })
 
 // 获取所有订单
-router.get("/allorders", (req, res, next) => {
-  // console.log(req.query);
-  let { username } = req.query
+router.post("/allorders", (req, res, next) => {
+  // console.log(req.body.username, "===");
+  let { username } = req.body
   User.find({ "name": username }, (err, data) => {
     // console.log(data);
     res.send(data[0].orderList)

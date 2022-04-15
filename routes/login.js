@@ -1,10 +1,27 @@
 var express = require('express');
 var router = express.Router();
+var jwt = require('jsonwebtoken');
 const User = require("../db/user")
 const Shopcart = require("../db/shopcart")
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
+
+router.use("/address", function (req, res, next) {
+  let body = req.headers.authorization || "";
+  // console.log(body);
+  let token = body.slice(7);
+  // console.log(token);
+  let secret = "shuosuo";
+  try {
+    let user = jwt.verify(token, secret);
+    console.log(user);
+  } catch (error) {
+    res.status(401).send("请登录");
+    return
+  };
+  next()
+})
 
 // 登录检查用户名及密码,以及传递购物车信息
 router.post("/", function (req, res, next) {
@@ -27,7 +44,15 @@ router.post("/", function (req, res, next) {
         // console.log(data);
         if (data.length === 0) res.send({ "state": 2 })
         else {
+          // 验证用户登录成功
           // 将购物车中的信息聚合到用户中
+          let payload = { "name": params.username };
+          let secret = "shuosuo"
+
+          let token = jwt.sign(payload, secret);
+          User.updateOne({ "name": params.username }, { $set: { "token": token } }, (err, doc) => {
+            console.log(doc);
+          })
           User.aggregate([
             {
               $lookup: {
@@ -43,7 +68,8 @@ router.post("/", function (req, res, next) {
             }
           ], (err, result) => {
             // console.log(result);
-            res.send({ "state": 3, result })
+
+            res.send({ "state": 3, result, token })
           })
         }
       })
@@ -60,6 +86,8 @@ router.post("/keys", function (req, res, next) {
   })
   res.send("修改搜索历史成功")
 })
+
+
 
 // 修改用户中的地址列表
 router.post("/address", function (req, res, next) {

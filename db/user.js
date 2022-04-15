@@ -7,6 +7,7 @@ const UserSchema = mongoose.Schema({
     type: String
   },
   phone: String,
+  token: String,
   searchHistory: Array,
   addressList: Array,
   orderList: Array
